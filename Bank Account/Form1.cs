@@ -12,17 +12,24 @@ namespace Bank_Account
 		{
 			if (string.IsNullOrEmpty(OwnerTxt.Text))
 			{
-				MessageBox.Show("Error: Owner box may not be blank!");
+				MessageBox.Show("Error: This field may not be empty!");
 				return;
 			}
 
-			BankAccount bankaccount = new BankAccount(OwnerTxt.Text);
-			BankAccounts.Add(bankaccount);
+			if (InterestRateNum.Value > 0)
+			{
+				BankAccounts.Add(new SavingsAccount(OwnerTxt.Text,
+					InterestRateNum.Value));
+			}
+			else
+			{
+				BankAccounts.Add(new BankAccount(OwnerTxt.Text));
+			}
 
 			RefreshGrid();
 			OwnerTxt.Text = string.Empty;
+			InterestRateNum.Value = 0;
 		}
-
 		private void RefreshGrid()
 		{
 			BankAccountsGrid.DataSource = null;
@@ -31,11 +38,11 @@ namespace Bank_Account
 
 		private void DepositBtn_Click(object sender, EventArgs e)
 		{
-			if (BankAccountsGrid.SelectedRows.Count == 1) 
+			if (BankAccountsGrid.SelectedRows.Count == 1)
 			{
 				BankAccount selectedBankAccount = BankAccountsGrid.SelectedRows[0].DataBoundItem as BankAccount;
 
-			
+
 				string message = selectedBankAccount.Deposit(AmountNum.Value);
 				RefreshGrid();
 				AmountNum.Value = 0;

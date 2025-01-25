@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// continue  Classes and Objects (C# OOP - Practical Programming Tutorial) - part 4
 
 namespace Bank_Account
 {	
@@ -12,7 +11,7 @@ namespace Bank_Account
 	{
 		public string Owner {  get; set; }
 		public Guid AccountNumber { get; set; }
-		public decimal Balance { get; private set; }
+		public decimal Balance { get; protected set; }
 
 		public BankAccount(string owner)
 		{
@@ -21,9 +20,9 @@ namespace Bank_Account
 			Balance = 0;
 		}
 
-		public string Deposit(decimal amount)
+		public virtual string Deposit(decimal amount)
 		{
-			if(amount<= 0)
+			if(amount <= 0)
 			{
 				return "You cannot depoist $" + amount;
 			}
